@@ -38,13 +38,19 @@ export default function TripPageClient({ trip }: { trip: Trip }) {
         <div className="max-w-lg mx-auto px-4 py-4">
           <div className="flex items-center gap-2">
             <span className="text-2xl">✈️</span>
-            <div>
+            <div className="flex-1 min-w-0">
               <h1 className="font-bold text-gray-900 leading-tight">
                 {trip.name}
               </h1>
-              <p className="text-xs text-gray-400">
-                Share: tripsync.app/trip/{trip.slug}
-              </p>
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(window.location.href);
+                }}
+                className="text-xs text-blue-500 hover:text-blue-700 transition truncate"
+                title="Copy link"
+              >
+                📋 Copy invite link
+              </button>
             </div>
           </div>
         </div>
