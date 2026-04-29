@@ -139,15 +139,21 @@ export default function SpinnerTab({
 
     const n = destinations.length;
     const sliceAngle = 360 / n;
-    // Pick a random winner index
     const winnerIdx = Math.floor(Math.random() * n);
-    // Total spin: 5-8 full rotations + landing angle
-    // Pointer is at top (0°). Slice i starts at i*sliceAngle.
-    // We want the mid of the winning slice under the pointer.
+
+    // After rotating the wheel by R degrees clockwise, the pointer (at top)
+    // points at wheel-angle (360 - R) % 360. We want it to point at winnerMid.
+    // So we need: R % 360 === (360 - winnerMid) % 360
     const winnerMid = winnerIdx * sliceAngle + sliceAngle / 2;
-    const extraSpins = 5 + Math.floor(Math.random() * 4); // must be integer so landing aligns
-    const totalSpin = extraSpins * 360 + (360 - winnerMid);
-    const newRotation = currentRotation.current + totalSpin;
+    const targetMod = (360 - winnerMid + 360) % 360;
+
+    // Compute delta from current position to target, always moving forward
+    const currentMod = currentRotation.current % 360;
+    let delta = (targetMod - currentMod + 360) % 360;
+    if (delta < 5) delta += 360; // ensure visible movement if already near target
+
+    const bonusSpins = (5 + Math.floor(Math.random() * 4)) * 360;
+    const newRotation = currentRotation.current + bonusSpins + delta;
     currentRotation.current = newRotation;
 
     // Apply via CSS transition on the SVG g element
