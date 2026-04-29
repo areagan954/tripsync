@@ -35,13 +35,13 @@ export default function AvailabilityTab({
     if (selected.size === 0) return;
     setSubmitting(true);
     try {
-      await submitAvailability(tripId, [...selected]);
+      await submitAvailability(tripId, Array.from(selected));
       // optimistically build a fake submission for local state
       const fakeSubmission: Submission = {
         id: Date.now(),
         tripId,
         createdAt: new Date(),
-        dates: [...selected].map((date, i) => ({
+        dates: Array.from(selected).map((date, i) => ({
           id: Date.now() + i,
           submissionId: Date.now(),
           date,

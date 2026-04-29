@@ -25,13 +25,13 @@ function formatDate(dateStr: string) {
 }
 
 function getTopDates(heatmap: Map<string, number>, n = 5) {
-  return [...heatmap.entries()]
+  return Array.from(heatmap.entries())
     .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
     .slice(0, n);
 }
 
 function getTopRanges(heatmap: Map<string, number>, minLen = 3, n = 3) {
-  const allDates = [...heatmap.keys()].filter((d) => (heatmap.get(d) ?? 0) > 0).sort();
+  const allDates = Array.from(heatmap.keys()).filter((d) => (heatmap.get(d) ?? 0) > 0).sort();
   const ranges: { start: string; end: string; score: number; len: number }[] = [];
 
   let i = 0;
@@ -64,7 +64,7 @@ function daysBetween(a: string, b: string) {
 
 export default function OverlapTab({ submissions }: { submissions: Submission[] }) {
   const heatmap = buildHeatmap(submissions);
-  const maxCount = Math.max(0, ...heatmap.values());
+  const maxCount = Math.max(0, ...Array.from(heatmap.values()));
   const topDates = getTopDates(heatmap);
   const topRanges = getTopRanges(heatmap);
 
