@@ -48,7 +48,7 @@ export default function Home() {
         </div>
 
         <p className="text-center text-xs text-gray-400">
-          Create a new trip, then Copy invite link and share with your friends
+          Create a new trip, then Copy the invite link and share with your friends
         </p>
       </div>
     </div>
