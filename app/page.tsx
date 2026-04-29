@@ -34,7 +34,7 @@ export default function Home() {
                 type="text"
                 required
                 placeholder="e.g. Cabo with the crew"
-                className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition"
+                className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-base outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition"
                 autoComplete="off"
               />
             </div>
