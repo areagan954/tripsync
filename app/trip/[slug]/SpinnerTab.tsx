@@ -145,7 +145,7 @@ export default function SpinnerTab({
     // Pointer is at top (0°). Slice i starts at i*sliceAngle.
     // We want the mid of the winning slice under the pointer.
     const winnerMid = winnerIdx * sliceAngle + sliceAngle / 2;
-    const extraSpins = 5 + Math.random() * 3;
+    const extraSpins = 5 + Math.floor(Math.random() * 4); // must be integer so landing aligns
     const totalSpin = extraSpins * 360 + (360 - winnerMid);
     const newRotation = currentRotation.current + totalSpin;
     currentRotation.current = newRotation;
