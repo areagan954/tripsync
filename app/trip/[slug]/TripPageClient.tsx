@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { Check, Copy } from "lucide-react";
 import AvailabilityTab from "./AvailabilityTab";
 import OverlapTab from "./OverlapTab";
 import SpinnerTab from "./SpinnerTab";
@@ -30,6 +31,15 @@ export default function TripPageClient({ trip }: { trip: Trip }) {
   const [activeTab, setActiveTab] = useState<Tab>("availability");
   const [submissions, setSubmissions] = useState(trip.submissions);
   const [destinations, setDestinations] = useState(trip.destinations);
+  const [copied, setCopied] = useState(false);
+  const copyTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function handleCopy() {
+    navigator.clipboard.writeText(window.location.href);
+    setCopied(true);
+    if (copyTimer.current) clearTimeout(copyTimer.current);
+    copyTimer.current = setTimeout(() => setCopied(false), 2000);
+  }
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -43,13 +53,23 @@ export default function TripPageClient({ trip }: { trip: Trip }) {
                 {trip.name}
               </h1>
               <button
-                onClick={() => {
-                  navigator.clipboard.writeText(window.location.href);
-                }}
-                className="text-xs text-blue-500 hover:text-blue-700 transition truncate"
-                title="Copy link"
+                onClick={handleCopy}
+                className={`inline-flex items-center gap-1 text-xs font-medium transition-colors ${
+                  copied ? "text-green-600" : "text-blue-500 hover:text-blue-700"
+                }`}
+                title="Copy invite link"
               >
-                📋 Copy invite link
+                {copied ? (
+                  <>
+                    <Check className="w-3 h-3" />
+                    Link copied!
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-3 h-3" />
+                    Copy invite link
+                  </>
+                )}
               </button>
             </div>
           </div>
