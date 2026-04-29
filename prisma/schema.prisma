@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Trip {
+  id          Int                 @id @default(autoincrement())
+  slug        String              @unique
+  name        String
+  createdAt   DateTime            @default(now())
+  submissions Submission[]
+  destinations DestinationOption[]
+}
+
+model Submission {
+  id         Int             @id @default(autoincrement())
+  tripId     Int
+  createdAt  DateTime        @default(now())
+  trip       Trip            @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  dates      AvailableDate[]
+}
+
+model AvailableDate {
+  id           Int        @id @default(autoincrement())
+  submissionId Int
+  date         String     // stored as YYYY-MM-DD
+  submission   Submission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+}
+
+model DestinationOption {
+  id        Int      @id @default(autoincrement())
+  tripId    Int
+  label     String
+  createdAt DateTime @default(now())
+  trip      Trip     @relation(fields: [tripId], references: [id], onDelete: Cascade)
+}
